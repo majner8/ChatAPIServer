@@ -16,8 +16,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import Autorization.DTO.AutorizationRequestDTO;
 import Autorization.DTO.TokenDTO;
 import Autorization.Entity.AutorizationUserEntity;
 import Autorization.JwtToken.JwtTokenInterface;
@@ -72,9 +74,9 @@ public class AutorizationControler {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<TokenDTO>login(@RequestHeader String email,
-			@RequestHeader String countryPreflix,@RequestHeader String phone,
-		@RequestHeader String password,@RequestHeader String deviceID){
+	public ResponseEntity<TokenDTO>login(@RequestBody AutorizationRequestDTO autorization){
+		
+		
 		Optional<UserEntity> users;
 		if(email!=null) {
 			users =this.UserService.findByEmail(email);
