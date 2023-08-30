@@ -1,4 +1,4 @@
-package Autorization.DTO;
+package Autorization.Entity;
 
 import java.sql.Timestamp;
 
