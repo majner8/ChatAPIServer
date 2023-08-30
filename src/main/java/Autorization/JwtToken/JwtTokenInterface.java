@@ -1,6 +1,9 @@
 package Autorization.JwtToken;
 
-public class JwtTokenInterface {
+import Autorization.DTO.TokenDTO;
 
-	public String generateToken()
+public interface JwtTokenInterface {
+
+	public TokenDTO generateToken(int userId,boolean isUserActive);
+	
 }

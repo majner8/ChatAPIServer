@@ -1,4 +1,4 @@
-package Entity;
+package User.Entity;
 
 import java.util.Date;
 
@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class AutorizationUserEntity {
+public class UserEntity {
 
 	@Column(name="email")
 	private String email;
@@ -24,6 +24,10 @@ public class AutorizationUserEntity {
 	private String lastName;
 	@Column(name="birthday")
 	private Date birthDay;
+	
+	@Column(name="is_user_active")
+	private boolean isUserActive;
+	
 	public String getEmail() {
 		return email;
 	}
@@ -42,12 +46,7 @@ public class AutorizationUserEntity {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
+	
 	public int getUserId() {
 		return userId;
 	}
@@ -71,6 +70,12 @@ public class AutorizationUserEntity {
 	}
 	public void setBirthDay(Date birthDay) {
 		this.birthDay = birthDay;
+	}
+	public boolean isUserActive() {
+		return isUserActive;
+	}
+	public void setUserActive(boolean isUserActive) {
+		this.isUserActive = isUserActive;
 	}
 	
 	
