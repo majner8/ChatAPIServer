@@ -1,14 +1,28 @@
 package Autorization.DTO;
 
-import Autorization.DTO.Validator.ValidAutorizationDTOInterface;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-@ValidAutorizationDTOInterface
+import Autorization.DTO.Validator.AutorizationPasswordInterface;
+import Autorization.DTO.Validator.AutorizationSurNameValidator;
+
+
+@AutorizationSurNameValidator
 public class AutorizationRequestDTO {
 
+	@Email
 	private String email;
+	@Size(max=3)
 	private String countryPreflix;
+	@Size(max=12)
 	private String phone;
+	@NotEmpty
+	@AutorizationPasswordInterface
 	private String password;
+	@NotEmpty
 	private String deviceID;
 	public String getEmail() {
 		return email;

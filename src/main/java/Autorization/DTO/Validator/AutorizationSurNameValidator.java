@@ -8,7 +8,7 @@ import javax.validation.Payload;
 @Constraint(validatedBy = AutorizationDTOValidator.class)
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidAutorizationDTOInterface {
+public @interface AutorizationSurNameValidator {
     String message() default "Phone and prefix must be both present or both absent.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
