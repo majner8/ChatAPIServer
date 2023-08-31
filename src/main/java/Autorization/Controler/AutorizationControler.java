@@ -44,22 +44,20 @@ public class AutorizationControler {
 	 * @return generated token if attemp will be sucesfull, token */
 	@Transactional
 	@PostMapping("/register")
-	public ResponseEntity<TokenDTO>register(@RequestHeader String email,
-			@RequestHeader String countryPreflix,@RequestHeader String phone,
-		@RequestHeader String password){
+	public ResponseEntity<TokenDTO>register(@RequestBody AutorizationRequestDTO value){
 		
-		if(this.UserService.existsByEmailOrPhoneAndCountryPreflix(email, phone, countryPreflix)) {
+		if(this.UserService.existsByEmailOrPhoneAndCountryPreflix(value.getEmail(), value.getPhone(), value.getCountryPreflix())) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}		
 		UserEntity newEntity=new UserEntity();
-		newEntity.setEmail(email);
-		newEntity.setPhone(phone);
-		newEntity.setCountry_preflix(countryPreflix);
+		newEntity.setEmail(value.getEmail());
+		newEntity.setPhone(value.getPhone());
+		newEntity.setCountry_preflix(value.getCountryPreflix());
 		try {
 		this.UserService.saveAndFlush(newEntity);
 			AutorizationUserEntity autUser=new AutorizationUserEntity();
 			autUser.setUserId(newEntity.getUserId());
-			autUser.setPassword(this.BCryptEncoder.encode(password));
+			autUser.setPassword(this.BCryptEncoder.encode(value.getPassword()));
 			this.AutorizationService.save(autUser);
 		} catch(DataIntegrityViolationException ee) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -74,16 +72,17 @@ public class AutorizationControler {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<TokenDTO>login(@RequestBody AutorizationRequestDTO autorization){
+	public ResponseEntity<TokenDTO>login(@RequestBody AutorizationRequestDTO value){
 		
 		
 		Optional<UserEntity> users;
-		if(email!=null) {
-			users =this.UserService.findByEmail(email);
+		if(value.getEmail()!=null) {
+			users =this.UserService.findByEmail(value.getEmail());
 		}
 		else {
-			users=this.UserService.findByPhoneAndCountry_preflix(phone, deviceID);
+			users=this.UserService.findByPhoneAndCountry_preflix(value.getPhone(), value.getDeviceID());
 		}
+		
 		if(users.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
@@ -92,21 +91,20 @@ public class AutorizationControler {
 				.orElseThrow(()->{
 					throw new RuntimeException("Chyba v datech, registrovaný uživatel nemá přidané heslo");
 				});
-		if(!this.BCryptEncoder.matches(password, autUser.getPassword())) {
+		if(!this.BCryptEncoder.matches(value.getPassword(), autUser.getPassword())) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 	
 		return ResponseEntity.ok(this.tokenGenerator.generateToken(user.getUserId(), user.isUserActive()));
 	}
+	
+	
 	@PostMapping("/finishRegistration")
-	public ResponseEntity<TokenDTO>finishRegistration(@RequestHeader String surName,
-		@RequestHeader String lastName, @RequestHeader String bornDate,
-		@AuthenticationPrincipal UserDetails authentication){
+	public ResponseEntity<TokenDTO>finishRegistration(@RequestBody AutorizationRequestDTO value){
 
 		
-		AutorizationUser user=new AutorizationUser();
+		UserEntity user=new UserEntity();
 		
-		user.setUserId(Integer.parseInt(authentication.getUsername()));
 		
 		
 		

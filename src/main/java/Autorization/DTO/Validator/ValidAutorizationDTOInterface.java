@@ -5,10 +5,10 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 @Documented
-@Constraint(validatedBy = PhoneValidator.class)
+@Constraint(validatedBy = AutorizationDTOValidator.class)
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidPhoneCombination {
+public @interface ValidAutorizationDTOInterface {
     String message() default "Phone and prefix must be both present or both absent.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
