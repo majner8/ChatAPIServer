@@ -3,6 +3,7 @@ package Autorization.Controler;
 
 import java.util.Optional;
 
+import javax.persistence.OptimisticLockException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,7 @@ public class AutorizationControler {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 		
-		return ResponseEntity.ok(this.tokenGenerator.generateToken(newEntity.getUserId(), false));
+		return ResponseEntity.ok(this.tokenGenerator.generateToken(newEntity));
 		
 	}
 
@@ -92,16 +93,28 @@ public class AutorizationControler {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 	
-		return ResponseEntity.ok(this.tokenGenerator.generateToken(user.getUserId(), user.isUserActive()));
+		return ResponseEntity.ok(this.tokenGenerator.generateToken(user));
 	}
 	
 	
+	/**Metod is processing finishRegistration request
+	 * @return HttpStatuc 409, if registration has been finished from different device */
 	@PostMapping("/finishRegistration")
 	public ResponseEntity<TokenDTO>finishRegistration(@RequestBody UserDataSettingDTO value,
 			@AuthenticationPrincipal CustomUserDetails userDetails){
 		UserEntity user=userDetails.getUserEntityFromToken();
-		user.setBirthDay(null)
 		
+		user.setSerName(value.getSerName());
+		user.setLastName(value.getLastName());
+		user.setBirthDay(value.getBirthDay());
+		user.setUserActive(true);
+		try {
+		this.UserService.saveAndFlush(user);
+		}
+		catch(OptimisticLockException e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+		}
+		return ResponseEntity.ok(this.tokenGenerator.generateToken(user.getUserId()));
 	}
 	
 

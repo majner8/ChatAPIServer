@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Version;
 
 @Entity
 public class UserEntity {
@@ -28,6 +29,16 @@ public class UserEntity {
 	@Column(name="is_user_active")
 	private boolean isUserActive;
 	
+	@Version
+	private long version;
+
+	
+	public long getVersion() {
+		return version;
+	}
+	public void setVersion(long version) {
+		this.version = version;
+	}
 	public String getEmail() {
 		return email;
 	}
