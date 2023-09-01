@@ -2,11 +2,11 @@ package Autorization.Service;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import Autorization.Entity.AutorizationUserEntity;
 import User.Entity.UserEntity;
+import User.Entity.UserPasswordEntity;
 
 
-public interface AutorizationRepositoryInterface extends JpaRepository<AutorizationUserEntity,Integer> {
+public interface AutorizationRepositoryInterface extends JpaRepository<UserPasswordEntity,Integer> {
 	
 	
 	

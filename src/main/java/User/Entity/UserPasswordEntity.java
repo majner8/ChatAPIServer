@@ -1,11 +1,11 @@
-package Autorization.Entity;
+package User.Entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class AutorizationUserEntity {
+public class UserPasswordEntity {
 
 	@Column(name="password")
 	private String password;

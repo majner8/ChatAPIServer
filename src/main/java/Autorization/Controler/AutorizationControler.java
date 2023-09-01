@@ -1,8 +1,6 @@
 package Autorization.Controler;
 
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -12,19 +10,17 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import Autorization.DTO.AutorizationRequestDTO;
 import Autorization.DTO.TokenDTO;
-import Autorization.Entity.AutorizationUserEntity;
 import Autorization.JwtToken.JwtTokenInterface;
 import Autorization.Service.AutorizationRepositoryInterface;
+import User.Entity.UserDataSettingDTO;
 import User.Entity.UserEntity;
+import User.Entity.UserPasswordEntity;
 import User.Interface.UserRepositoryInterface;
 
 public class AutorizationControler {
@@ -53,9 +49,10 @@ public class AutorizationControler {
 		newEntity.setEmail(value.getEmail());
 		newEntity.setPhone(value.getPhone());
 		newEntity.setCountry_preflix(value.getCountryPreflix());
+		
 		try {
-		this.UserService.saveAndFlush(newEntity);
-			AutorizationUserEntity autUser=new AutorizationUserEntity();
+			this.UserService.saveAndFlush(newEntity);
+			UserPasswordEntity autUser=new UserPasswordEntity();
 			autUser.setUserId(newEntity.getUserId());
 			autUser.setPassword(this.BCryptEncoder.encode(value.getPassword()));
 			this.AutorizationService.save(autUser);
@@ -87,7 +84,7 @@ public class AutorizationControler {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 		UserEntity user=users.get();
-		AutorizationUserEntity autUser=this.AutorizationService.findById(user.getUserId())
+		UserPasswordEntity autUser=this.AutorizationService.findById(user.getUserId())
 				.orElseThrow(()->{
 					throw new RuntimeException("Chyba v datech, registrovaný uživatel nemá přidané heslo");
 				});
@@ -100,15 +97,11 @@ public class AutorizationControler {
 	
 	
 	@PostMapping("/finishRegistration")
-	public ResponseEntity<TokenDTO>finishRegistration(@RequestBody AutorizationRequestDTO value){
-
+	public ResponseEntity<TokenDTO>finishRegistration(@RequestBody UserDataSettingDTO value,
+			@AuthenticationPrincipal CustomUserDetails userDetails){
+		UserEntity user=userDetails.getUserEntityFromToken();
+		user.setBirthDay(null)
 		
-		UserEntity user=new UserEntity();
-		
-		
-		
-		
-		return null;
 	}
 	
 

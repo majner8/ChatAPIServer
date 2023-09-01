@@ -1,4 +1,4 @@
-package Autorization.Entity;
+package User.Entity;
 
 import java.sql.Timestamp;
 
@@ -8,7 +8,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
 @Entity(name="deviceuser")
-public class AutorizationDeviceProcess {
+public class UserDevicesEntity {
 
 
 	@Column(name="validtokenuuid")
