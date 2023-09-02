@@ -21,15 +21,20 @@ public class CustomUserDetails implements UserDetails{
 	
 	private Collection<? extends GrantedAuthority> autority;
 	private int userId;
-	private String phone;
-	private String emailAdress;
-	private boolean finishRegistration;
+
 	
 	
 	
 	
 	
 	
+	public CustomUserDetails(Collection<? extends GrantedAuthority> autority, int userId, String phone,
+			String emailAdress) {
+		this.autority = autority;
+		this.userId = userId;
+
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
@@ -45,7 +50,7 @@ public class CustomUserDetails implements UserDetails{
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return this.emailAdress==null?this.phone:this.emailAdress;
+		return this.userId;
 	}
 
 	@Override
@@ -69,7 +74,19 @@ public class CustomUserDetails implements UserDetails{
 	@Override
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
-		return this.finishRegistration;
+		return true;
 	}
+
+	public Collection<? extends GrantedAuthority> getAutority() {
+		return autority;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+
+	
+	
 
 }

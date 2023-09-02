@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import Autorization.DTO.AutorizationRequestDTO;
 import Autorization.DTO.TokenDTO;
 import Autorization.Service.AutorizationRepositoryInterface;
+import Config.PathConfig;
 import Security.JWT.JwtTokenInterface;
 import User.Entity.UserDataSettingDTO;
 import User.Entity.UserEntity;
@@ -40,11 +41,10 @@ public class AutorizationControler {
 	
 	
 	
-	public static final String registerPath="/register";
 	/**Metod proces Registration task
 	 * @return generated token if attemp will be sucesfull, token */
 	@Transactional
-	@PostMapping(registerPath)
+	@PostMapping(PathConfig.registerPath)
 	public ResponseEntity<TokenDTO>register(@RequestBody AutorizationRequestDTO value){
 		
 		if(this.UserService.existsByEmailOrPhoneAndCountryPreflix(value.getEmail(), value.getPhone(), value.getCountryPreflix())) {
@@ -72,8 +72,7 @@ public class AutorizationControler {
 		return ResponseEntity.ok(this.tokenGenerator.generateToken(newEntity));
 		
 	}
-	public static final String loginPath="/login";
-	@PostMapping(loginPath)
+	@PostMapping(PathConfig.loginPath)
 	public ResponseEntity<TokenDTO>login(@RequestBody AutorizationRequestDTO value){
 		
 		
@@ -103,7 +102,7 @@ public class AutorizationControler {
 	
 	/**Metod is processing finishRegistration request
 	 * @return HttpStatuc 409, if registration has been finished from different device */
-	@PostMapping("/finishRegistration")
+	@PostMapping(PathConfig.finisRegistrationPath)
 	public ResponseEntity<TokenDTO>finishRegistration(@RequestBody UserDataSettingDTO value,
 			@AuthenticationPrincipal CustomUserDetails userDetails){
 		UserEntity user=userDetails.getUserEntityFromToken();

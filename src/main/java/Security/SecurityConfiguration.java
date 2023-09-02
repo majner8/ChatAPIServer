@@ -8,8 +8,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	
+	public static final String userIsActiveRole="Role_active";
 
+	public static final String jwtTokenPreflix="Bearer ";
+	
 	 @Override
 	 protected void configure(HttpSecurity http)throws Exception {
 		 

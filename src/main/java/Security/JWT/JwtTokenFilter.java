@@ -1,6 +1,8 @@
 package Security.JWT;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -9,12 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 import Autorization.Controler.AutorizationControler;
+import Autorization.Controler.CustomUserDetails;
+import Security.SecurityConfigEnum;
+import Security.SecurityConfiguration;
 
 public class JwtTokenFilter extends OncePerRequestFilter{
 
@@ -28,25 +36,28 @@ public class JwtTokenFilter extends OncePerRequestFilter{
 			filterChain.doFilter(request, response);
 			return;
 		}
-		
+		String header=request.getHeader(HttpHeaders.AUTHORIZATION); 
+		 if(header==null||header.isEmpty()||!header.startsWith(SecurityConfigEnum.jwtTokenPreflix.toString())) {
+			 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			 return;
+		 }	
 	
 		DecodedJWT jwt=	this.tokenValidation.tokenValidation(request);
 	
-		Claim act=jwt.getClaim("active");
+		List <GrantedAuthority> autority=new ArrayList<GrantedAuthority>();
+		Claim act=jwt.getClaim(SecurityConfigEnum.UserIsActiveClaimName.toString());
+		CustomUserDetails user;
 		if(Boolean.valueOf(act.asString())==true) {
-			
+			autority.add(new SimpleGrantedAuthority(SecurityConfiguration.userIsActiveRole));
 		}
 		else {
 			
 		}
-		String header=request.getHeader(HttpHeaders.AUTHORIZATION);
-	 
-	 if(header==null||header.isEmpty()||!header.startsWith("Bearer ")) {
-		 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-		 return;
-	 }	
-	 
-		this.tokenValidat
+		
+		
+	 CustomUserDetails user=new CustomUserDetails()
+	 SecurityContextHolder.getContext().setAuthentication(null)
+	
 	}
 
 	
