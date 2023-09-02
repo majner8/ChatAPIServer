@@ -38,6 +38,18 @@
     <artifactId>spring-boot-starter-aop</artifactId>
 </dependency>
 
+<dependency>
+    <groupId>org.jasypt</groupId>
+    <artifactId>jasypt</artifactId>
+    <version>1.9.3</version> <!-- Make sure to check for the latest version -->
+</dependency>
+
+    <!-- JSON Web Token for Java -->
+    <dependency>
+        <groupId>io.jsonwebtoken</groupId>
+        <artifactId>jjwt-api</artifactId>
+        <version>0.11.2</version>
+    </dependency>
 
 <!-- https://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
 <dependency>

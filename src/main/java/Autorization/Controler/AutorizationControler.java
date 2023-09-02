@@ -14,16 +14,18 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import Autorization.DTO.AutorizationRequestDTO;
 import Autorization.DTO.TokenDTO;
-import Autorization.JwtToken.JwtTokenInterface;
 import Autorization.Service.AutorizationRepositoryInterface;
+import Security.JWT.JwtTokenInterface;
 import User.Entity.UserDataSettingDTO;
 import User.Entity.UserEntity;
 import User.Entity.UserPasswordEntity;
 import User.Interface.UserRepositoryInterface;
 
+@RequestMapping("/autorization")
 public class AutorizationControler {
 
 	@Autowired
@@ -37,10 +39,12 @@ public class AutorizationControler {
 	private AutorizationRepositoryInterface AutorizationService;
 	
 	
+	
+	public static final String registerPath="/register";
 	/**Metod proces Registration task
 	 * @return generated token if attemp will be sucesfull, token */
 	@Transactional
-	@PostMapping("/register")
+	@PostMapping(registerPath)
 	public ResponseEntity<TokenDTO>register(@RequestBody AutorizationRequestDTO value){
 		
 		if(this.UserService.existsByEmailOrPhoneAndCountryPreflix(value.getEmail(), value.getPhone(), value.getCountryPreflix())) {
@@ -68,8 +72,8 @@ public class AutorizationControler {
 		return ResponseEntity.ok(this.tokenGenerator.generateToken(newEntity));
 		
 	}
-
-	@PostMapping("/login")
+	public static final String loginPath="/login";
+	@PostMapping(loginPath)
 	public ResponseEntity<TokenDTO>login(@RequestBody AutorizationRequestDTO value){
 		
 		

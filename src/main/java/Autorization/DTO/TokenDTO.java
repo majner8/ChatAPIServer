@@ -7,6 +7,8 @@ public class TokenDTO {
 	private String token;
 	private boolean isUserActive;
 	private Date validUntil;
+	
+	
 	public String getToken() {
 		return token;
 	}
