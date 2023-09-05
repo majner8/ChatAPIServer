@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +33,7 @@ import User.Entity.UserPasswordEntity;
 import User.Interface.UserRepositoryInterface;
 
 @RequestMapping(PathConfig.autorizationPathPreflix)
+@Component
 public class AutorizationControler {
 
 	@Autowired
@@ -49,7 +52,6 @@ public class AutorizationControler {
 	 * @return generated token if attemp will be sucesfull, token */
 	@Transactional
 	@PostMapping(PathConfig.registerPath)
-	@PreAuthorize("permitAll()")
 	public ResponseEntity<TokenDTO>register(@RequestBody AutorizationRequestDTO value){
 		
 		if(this.UserService.existsByEmailOrPhoneAndCountryPreflix(value.getEmail(), value.getPhone(), value.getCountryPreflix())) {
@@ -77,21 +79,25 @@ public class AutorizationControler {
 		return ResponseEntity.ok(this.tokenGenerator.generateToken(newEntity));
 		
 	}
-	@PreAuthorize("permitAll()")
 	@PostMapping(PathConfig.loginPath)
 	public ResponseEntity<TokenDTO>login(@RequestBody AutorizationRequestDTO value){
-		
+		for(int i=0;i<=10;i++) {
+			System.out.println("AAA");
+		}
 		
 		Optional<UserEntity> users;
 		if(value.getEmail()!=null) {
 			users =this.UserService.findByEmail(value.getEmail());
 		}
 		else {
-			users=this.UserService.findByPhoneAndCountry_preflix(value.getPhone(), value.getDeviceID());
+			users=this.UserService.findByPhoneAndCountryPreflix(value.getPhone(), value.getDeviceID());
 		}
 		
 		if(users.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+		for(int i=0;i<=10;i++) {
+			System.out.println("B");
 		}
 		UserEntity user=users.get();
 		UserPasswordEntity autUser=this.UserPasswordDatabaseService.findById(user.getUserId())

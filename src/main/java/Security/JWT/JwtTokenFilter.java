@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.auth0.jwt.interfaces.Claim;
@@ -25,6 +26,7 @@ import Config.PathConfig;
 import Security.CustomUserDetails;
 import Security.SecurityConfiguration;
 
+@Component
 public class JwtTokenFilter extends OncePerRequestFilter{
 
 	@Autowired
@@ -32,6 +34,8 @@ public class JwtTokenFilter extends OncePerRequestFilter{
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+		
+		
 		if(request.getRequestURI().equals("/autorization"+PathConfig.loginPath)
 			||request.getRequestURI().equals("/autorization"+PathConfig.registerPath)	) {
 			filterChain.doFilter(request, response);

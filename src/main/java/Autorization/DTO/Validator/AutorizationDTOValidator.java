@@ -10,6 +10,10 @@ public class AutorizationDTOValidator implements ConstraintValidator<Autorizatio
 	@Override
 	public boolean isValid(AutorizationRequestDTO value, ConstraintValidatorContext context) {
 
+		for(int i=0;i<=10;i++) {
+			System.out.println("C");
+		}
+		
 		if(value.getEmail()==null&&(value.getCountryPreflix()==null||value.getPhone()==null)) {
 			return false;
 		}

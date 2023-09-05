@@ -32,12 +32,9 @@ public class JwtUtils implements JwtTokenInterface{
 	
 	//public static ObjectMapper jwtMapper=new ObjectMapper();
 	
-	@Value("${expiration}")
 	private long expiration;
-	@Value("${authorizationExpiration}")
-	private long Autorization_expiration;
-	@Value("${SecretKey}")
-	private String secret;
+	private long authorizationExpiration;
+	private String SecretKey;
 	
 	@Override
 	public TokenDTO generateToken(UserEntity user) {
@@ -80,7 +77,7 @@ public class JwtUtils implements JwtTokenInterface{
 
 	
 	private DecodedJWT verifyToken(String token) {
-	        JWT.require(Algorithm.HMAC512(secret))
+	        JWT.require(Algorithm.HMAC512(this.SecretKey))
               .build()
               .verify(token);
 	        DecodedJWT jwt=JWT.decode(token);
@@ -108,11 +105,11 @@ public class JwtUtils implements JwtTokenInterface{
 		claimValue.forEach((X,Z)->{
 			jwtBuilder.withClaim(X,Z);
 		});
-		return "Bearer " +jwtBuilder.sign(Algorithm.HMAC512(secret));
+		return "Bearer " +jwtBuilder.sign(Algorithm.HMAC512(this.SecretKey));
 		}	
 		
 	private Date TokenValidity(boolean isuserActive) {
-		return new Date(System.currentTimeMillis()+(isuserActive==true?this.expiration:this.Autorization_expiration));
+		return new Date(System.currentTimeMillis()+(isuserActive==true?this.expiration:this.authorizationExpiration));
 		
 	}
 

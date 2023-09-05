@@ -13,7 +13,7 @@ public class UserEntity {
 	@Column(name="email")
 	private String email;
 	@Column(name="country_preflix")
-	private String country_preflix;
+	private String countryPreflix;
 	@Column(name="phone")
 	private String phone;
 	@Id
@@ -45,11 +45,11 @@ public class UserEntity {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getCountry_preflix() {
-		return country_preflix;
+	public String getCountryPreflix() {
+		return countryPreflix;
 	}
 	public void setCountry_preflix(String country_preflix) {
-		this.country_preflix = country_preflix;
+		this.countryPreflix = country_preflix;
 	}
 	public String getPhone() {
 		return phone;
