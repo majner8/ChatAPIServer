@@ -6,7 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
@@ -16,18 +22,23 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import Autorization.DTO.TokenDTO;
+import Security.SecurityConfiguration;
 import User.Entity.UserEntity;
 import io.jsonwebtoken.UnsupportedJwtException;
-
+@ConfigurationProperties(prefix = "jwt")
+@Service
 public class JwtUtils implements JwtTokenInterface{
 
 	
-	public static ObjectMapper jwtMapper=new ObjectMapper();
-
-	private long expiration;
-	private long Autorization_expiration;
+	//public static ObjectMapper jwtMapper=new ObjectMapper();
 	
-	private final String secret;
+	@Value("${expiration}")
+	private long expiration;
+	@Value("${authorizationExpiration}")
+	private long Autorization_expiration;
+	@Value("${SecretKey}")
+	private String secret;
+	
 	@Override
 	public TokenDTO generateToken(UserEntity user) {
 		// TODO Auto-generated method stub
@@ -39,7 +50,7 @@ public class JwtUtils implements JwtTokenInterface{
 		}
 		else {
 			Map<String, String> claims = new HashMap<>();
-			claims.put("version", String.valueOf(user.getVersion()));
+			claims.put(SecurityConfiguration.VersionClaimName, String.valueOf(user.getVersion()));
 			token=this.generateToken(user.getUserId(), user.isUserActive(), claims,validUntil);
 		}
 		
@@ -103,5 +114,11 @@ public class JwtUtils implements JwtTokenInterface{
 	private Date TokenValidity(boolean isuserActive) {
 		return new Date(System.currentTimeMillis()+(isuserActive==true?this.expiration:this.Autorization_expiration));
 		
+	}
+
+	@Override
+	public DecodedJWT tokenValidation(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

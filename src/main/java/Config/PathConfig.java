@@ -3,9 +3,11 @@ package Config;
 public class PathConfig {
 
 	
-	public final static String loginPath="";
+	public final static String loginPath="/login";
 	
-	public final static String registerPath="";
+	public final static String registerPath="/register";
 	
-	public final static String finisRegistrationPath="";
+	public final static String finisRegistrationPath="/finishRegistration";
+	
+	public final static String autorizationPathPreflix="/autorization";
 }

@@ -1,4 +1,4 @@
-package Autorization.Controler;
+package Security;
 
 import java.util.Collection;
 import java.util.Map;
@@ -21,15 +21,27 @@ public class CustomUserDetails implements UserDetails{
 	
 	private Collection<? extends GrantedAuthority> autority;
 	private int userId;
-
 	
 	
 	
+	/**Metod create new CustomUserDetails object
+	 *  @return null if autority equal null, or userId is not an Integer */
+	public static CustomUserDetails createCustomUserDetails(Collection<? extends GrantedAuthority> autority, String userId) {
+		if(autority==null||userId==null) {
+			return null;
+		}
+		try {
+			return new CustomUserDetails(autority,Integer.parseInt(userId));
+		
+		}
+			catch(NumberFormatException e) {
+				return null;
+			}
 	
+		
+	}
 	
-	
-	public CustomUserDetails(Collection<? extends GrantedAuthority> autority, int userId, String phone,
-			String emailAdress) {
+	protected CustomUserDetails(Collection<? extends GrantedAuthority> autority, int userId) {
 		this.autority = autority;
 		this.userId = userId;
 
@@ -50,7 +62,7 @@ public class CustomUserDetails implements UserDetails{
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return this.userId;
+		return String.valueOf(this.userId);
 	}
 
 	@Override
@@ -86,7 +98,34 @@ public class CustomUserDetails implements UserDetails{
 	}
 
 
-	
+	public static class AutorizationCustomUserDetails extends CustomUserDetails {
+
+		private long DatabaseVersion;
+		private AutorizationCustomUserDetails(long Version,Collection<? extends GrantedAuthority> autority, int userId) {
+			super(autority, userId);
+			this.DatabaseVersion=Version;
+			// TODO Auto-generated constructor stub
+		}
+		
+		public static AutorizationCustomUserDetails createAutorizationCustomUserDetails(Long version,Collection<? extends GrantedAuthority> autority, String userId) {
+			if(autority==null||userId==null||version==null) {
+				return null;
+			}
+			try {
+			return new AutorizationCustomUserDetails(version,autority,Integer.parseInt(userId));
+		
+			}
+			catch(NumberFormatException e) {
+				return null;
+			}
+		}
+		
+		public long getDatabaseVersion() {
+			return this.DatabaseVersion;
+		}
+
+		
+	}
 	
 
 }
