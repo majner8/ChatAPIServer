@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Version;
 
-@Entity
+@Entity(name="userpassword")
 public class UserPasswordEntity {
 
 	@Column(name="password")
@@ -14,17 +14,8 @@ public class UserPasswordEntity {
 	@Column(name="useruuid")
 	private int userId;
 	
-	@Version
-	private long version;
 	
 	
-		
-	public long getVersion() {
-		return version;
-	}
-	public void setVersion(long version) {
-		this.version = version;
-	}
 	public String getPassword() {
 		return password;
 	}

@@ -23,6 +23,7 @@ public class AutorizationRequestDTO {
 	@AutorizationPasswordInterface
 	private String password;
 	@NotEmpty
+	@NotNull
 	private String deviceID;
 	public String getEmail() {
 		return email;
@@ -58,3 +59,4 @@ public class AutorizationRequestDTO {
 	
 	
 }
+

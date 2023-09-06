@@ -25,15 +25,16 @@ import Autorization.DTO.TokenDTO;
 import Security.SecurityConfiguration;
 import User.Entity.UserEntity;
 import io.jsonwebtoken.UnsupportedJwtException;
-@ConfigurationProperties(prefix = "jwt")
 @Service
 public class JwtUtils implements JwtTokenInterface{
 
 	
 	//public static ObjectMapper jwtMapper=new ObjectMapper();
-	
+	@Value("${jwt.expiration}")
 	private long expiration;
+	@Value("${jwt.authorizationExpiration}")
 	private long authorizationExpiration;
+	@Value("jwt.SecretKey")
 	private String SecretKey;
 	
 	@Override

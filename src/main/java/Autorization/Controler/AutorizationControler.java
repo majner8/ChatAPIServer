@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.persistence.OptimisticLockException;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -52,7 +53,7 @@ public class AutorizationControler {
 	 * @return generated token if attemp will be sucesfull, token */
 	@Transactional
 	@PostMapping(PathConfig.registerPath)
-	public ResponseEntity<TokenDTO>register(@RequestBody AutorizationRequestDTO value){
+	public ResponseEntity<TokenDTO>register(@RequestBody @Valid AutorizationRequestDTO value){
 		
 		if(this.UserService.existsByEmailOrPhoneAndCountryPreflix(value.getEmail(), value.getPhone(), value.getCountryPreflix())) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -65,6 +66,7 @@ public class AutorizationControler {
 		
 		try {
 			this.UserService.saveAndFlush(newEntity);
+			
 			UserPasswordEntity autUser=new UserPasswordEntity();
 			autUser.setUserId(newEntity.getUserId());
 			autUser.setPassword(this.BCryptEncoder.encode(value.getPassword()));
@@ -80,10 +82,7 @@ public class AutorizationControler {
 		
 	}
 	@PostMapping(PathConfig.loginPath)
-	public ResponseEntity<TokenDTO>login(@RequestBody AutorizationRequestDTO value){
-		for(int i=0;i<=10;i++) {
-			System.out.println("AAA");
-		}
+	public ResponseEntity<TokenDTO>login(@RequestBody @Valid AutorizationRequestDTO value){
 		
 		Optional<UserEntity> users;
 		if(value.getEmail()!=null) {
@@ -94,11 +93,10 @@ public class AutorizationControler {
 		}
 		
 		if(users.isEmpty()) {
+			
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		for(int i=0;i<=10;i++) {
-			System.out.println("B");
-		}
+		
 		UserEntity user=users.get();
 		UserPasswordEntity autUser=this.UserPasswordDatabaseService.findById(user.getUserId())
 				.orElseThrow(()->{
