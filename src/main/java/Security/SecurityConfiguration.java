@@ -41,8 +41,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		 .authorizeRequests()
 		 .antMatchers(PathConfig.autorizationPathPreflix+"/**").permitAll()
 		 .antMatchers(PathConfig.autorizationPathPreflix+PathConfig.finisRegistrationPath).authenticated()
+		 .antMatchers(PathConfig.autorizationPathPreflix+PathConfig.finisRegistrationPath).hasAnyAuthority(this.userIsNotActiveRole)
+		 .anyRequest().authenticated()
+		 .anyRequest().hasAnyAuthority(this.userIsActiveRole);
+		 ;
 		 
-		 .anyRequest().authenticated();
 	 }
 
 	 /*

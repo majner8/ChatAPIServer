@@ -2,6 +2,8 @@ package Autorization.DTO;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class TokenDTO {
 
 	private String token;

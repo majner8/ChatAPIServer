@@ -4,6 +4,7 @@ package Autorization.Controler;
 import java.util.Optional;
 
 import javax.persistence.OptimisticLockException;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -53,7 +54,8 @@ public class AutorizationControler {
 	 * @return generated token if attemp will be sucesfull, token */
 	@Transactional
 	@PostMapping(PathConfig.registerPath)
-	public ResponseEntity<TokenDTO>register(@RequestBody @Valid AutorizationRequestDTO value){
+	public ResponseEntity<TokenDTO>register(@RequestBody @Valid AutorizationRequestDTO value,
+			HttpServletRequest request){
 		
 		if(this.UserService.existsByEmailOrPhoneAndCountryPreflix(value.getEmail(), value.getPhone(), value.getCountryPreflix())) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -82,7 +84,9 @@ public class AutorizationControler {
 		
 	}
 	@PostMapping(PathConfig.loginPath)
-	public ResponseEntity<TokenDTO>login(@RequestBody @Valid AutorizationRequestDTO value){
+	public ResponseEntity<TokenDTO>login(@RequestBody @Valid AutorizationRequestDTO value
+			,HttpServletRequest request
+			){
 		
 		Optional<UserEntity> users;
 		if(value.getEmail()!=null) {
@@ -113,7 +117,6 @@ public class AutorizationControler {
 	/**Metod is processing finishRegistration request
 	 * @return HttpStatuc 409, if registration has been finished from different device */
 	@PostMapping(PathConfig.finisRegistrationPath)
-	@PreAuthorize("hasAuthority("+SecurityConfiguration.userIsNotActiveRole +")")
 	public ResponseEntity<TokenDTO>finishRegistration(@RequestBody UserDataSettingDTO value,
 			@AuthenticationPrincipal AutorizationCustomUserDetails userDetails){
 		UserEntity user=this.UserService.findById(userDetails.getUserId()).orElseThrow(()->{
