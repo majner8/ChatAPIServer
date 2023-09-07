@@ -80,13 +80,12 @@ public class AutorizationControler {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
-		return ResponseEntity.ok(this.tokenGenerator.generateToken(newEntity));
+		return ResponseEntity.ok(this.tokenGenerator.generateToken(newEntity,value.getDeviceID()));
 		
 	}
 	@PostMapping(PathConfig.loginPath)
 	public ResponseEntity<TokenDTO>login(@RequestBody @Valid AutorizationRequestDTO value
-			,HttpServletRequest request
-			){
+			,HttpServletRequest request){
 		
 		Optional<UserEntity> users;
 		if(value.getEmail()!=null) {
@@ -106,11 +105,11 @@ public class AutorizationControler {
 				.orElseThrow(()->{
 					throw new RuntimeException("Chyba v datech, registrovaný uživatel nemá přidané heslo");
 				});
+	
 		if(!this.BCryptEncoder.matches(value.getPassword(), autUser.getPassword())) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-	
-		return ResponseEntity.ok(this.tokenGenerator.generateToken(user));
+		return ResponseEntity.ok(this.tokenGenerator.generateToken(user,value.getDeviceID()));
 	}
 	
 	
@@ -119,6 +118,7 @@ public class AutorizationControler {
 	@PostMapping(PathConfig.finisRegistrationPath)
 	public ResponseEntity<TokenDTO>finishRegistration(@RequestBody UserDataSettingDTO value,
 			@AuthenticationPrincipal AutorizationCustomUserDetails userDetails){
+		
 		UserEntity user=this.UserService.findById(userDetails.getUserId()).orElseThrow(()->{
 			throw new UserWasNotFindException(userDetails.getUserId());
 		});
@@ -128,14 +128,16 @@ public class AutorizationControler {
 		user.setBirthDay(value.getBirthDay());
 		user.setUserActive(true);
 		user.setVersion(userDetails.getDatabaseVersion());
+		
+		
 		try {
-		this.UserService.saveAndFlush(user);
+			this.UserService.saveAndFlush(user);
 		}
 		catch(OptimisticLockException e) {
 			//registration has been finish from other device
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
-		return ResponseEntity.ok(this.tokenGenerator.generateToken(user.getUserId()));
+		return ResponseEntity.ok(this.tokenGenerator.generateToken(user.getUserId(),userDetails.getDeviceId()));
 	}
 	
 	

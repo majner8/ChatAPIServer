@@ -15,11 +15,7 @@ public class BeanSetting {
 	
 	 @Bean
 	    public ObjectMapper objectMapper() {
-	        ObjectMapper objectMapper = new ObjectMapper();
-	        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-	        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-	        objectMapper.setDateFormat(outputFormat);
-	        return objectMapper;
+	     return new ObjectMapper();
 	    }
 	
 	 @Bean

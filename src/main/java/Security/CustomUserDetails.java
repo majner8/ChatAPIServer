@@ -21,17 +21,22 @@ public class CustomUserDetails implements UserDetails{
 	
 	private Collection<? extends GrantedAuthority> autority;
 	private int userId;
+	private String deviceId;
 	
 	
-	
+	public String getDeviceId() {
+		return deviceId;
+	}
+
 	/**Metod create new CustomUserDetails object
 	 *  @return null if autority equal null, or userId is not an Integer */
-	public static CustomUserDetails createCustomUserDetails(Collection<? extends GrantedAuthority> autority, String userId) {
+	public static CustomUserDetails createCustomUserDetails(Collection<? extends GrantedAuthority> autority, String userId
+			,String deviceId) {
 		if(autority==null||userId==null) {
 			return null;
 		}
 		try {
-			return new CustomUserDetails(autority,Integer.parseInt(userId));
+			return new CustomUserDetails(autority,Integer.parseInt(userId),deviceId);
 		
 		}
 			catch(NumberFormatException e) {
@@ -41,10 +46,10 @@ public class CustomUserDetails implements UserDetails{
 		
 	}
 	
-	protected CustomUserDetails(Collection<? extends GrantedAuthority> autority, int userId) {
+	protected CustomUserDetails(Collection<? extends GrantedAuthority> autority, int userId,String deviceId) {
 		this.autority = autority;
 		this.userId = userId;
-
+		this.deviceId=deviceId;
 	}
 
 	@Override
@@ -101,18 +106,23 @@ public class CustomUserDetails implements UserDetails{
 	public static class AutorizationCustomUserDetails extends CustomUserDetails {
 
 		private long DatabaseVersion;
-		private AutorizationCustomUserDetails(long Version,Collection<? extends GrantedAuthority> autority, int userId) {
-			super(autority, userId);
+		private AutorizationCustomUserDetails(long Version,Collection<? extends GrantedAuthority> autority, int userId,String deviceId) {
+			super(autority, userId,deviceId);
 			this.DatabaseVersion=Version;
 			// TODO Auto-generated constructor stub
 		}
 		
-		public static AutorizationCustomUserDetails createAutorizationCustomUserDetails(Long version,Collection<? extends GrantedAuthority> autority, String userId) {
+		public static AutorizationCustomUserDetails createAutorizationCustomUserDetails(Long version,Collection<? extends GrantedAuthority> autority, String userId,String deviceId) {
+			
+			System.out.println(autority);
+			System.out.println(userId);
+			System.out.println(version);
+
 			if(autority==null||userId==null||version==null) {
 				return null;
 			}
 			try {
-			return new AutorizationCustomUserDetails(version,autority,Integer.parseInt(userId));
+			return new AutorizationCustomUserDetails(version,autority,Integer.parseInt(userId),deviceId);
 		
 			}
 			catch(NumberFormatException e) {

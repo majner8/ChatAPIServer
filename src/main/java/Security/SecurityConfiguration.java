@@ -14,7 +14,6 @@ import Config.PathConfig;
 import Security.JWT.JwtTokenFilter;
 
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
@@ -22,9 +21,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	public static final String jwtTokenPreflix="Bearer ";
 	
-	public static final String userIsActiveClaimName="Active";
-	public static final String userIsNotActiveRole="Role_active";	
-	public static final String VersionClaimName="version";
+	public static final String	userIsActiveClaimName="Role_Active";
+	public static final String	userIsNotActiveRole="Role_UnActive";	
+	public static final String	VersionClaimName="version";
+	public static final String	DeviceIdClaimName="deviceId";
+	public static final String 	userIdClaimName="userId";
 	@Autowired
 	public JwtTokenFilter tokenFilter;
 	
@@ -39,12 +40,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		 .and() 
 		 .addFilterAfter(this.tokenFilter, UsernamePasswordAuthenticationFilter.class)
 		 .authorizeRequests()
-		 .antMatchers(PathConfig.autorizationPathPreflix+"/**").permitAll()
+		 .antMatchers(PathConfig.autorizationPathPreflix+PathConfig.loginPath).permitAll()
+		 .antMatchers(PathConfig.autorizationPathPreflix+PathConfig.registerPath).permitAll()
+
 		 .antMatchers(PathConfig.autorizationPathPreflix+PathConfig.finisRegistrationPath).authenticated()
 		 .antMatchers(PathConfig.autorizationPathPreflix+PathConfig.finisRegistrationPath).hasAnyAuthority(this.userIsNotActiveRole)
-		 .anyRequest().authenticated()
-		 .anyRequest().hasAnyAuthority(this.userIsActiveRole);
-		 ;
+		 .anyRequest().access(String.format("authenticated() and hasAnyAuthority(%s)",this.userIsActiveRole));
 		 
 	 }
 
