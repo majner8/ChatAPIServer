@@ -101,10 +101,11 @@ public class AutorizationControler {
 		}
 		
 		UserEntity user=users.get();
-		UserPasswordEntity autUser=this.UserPasswordDatabaseService.findById(user.getUserId())
-				.orElseThrow(()->{
-					throw new RuntimeException("Chyba v datech, registrovaný uživatel nemá přidané heslo");
-				});
+		UserPasswordEntity autUser = this.UserPasswordDatabaseService.findById(user.getUserId())
+                .orElseThrow(() -> {
+                    throw new RuntimeException("Error in data, registered user does not have an added password");
+                });
+
 	
 		if(!this.BCryptEncoder.matches(value.getPassword(), autUser.getPassword())) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
