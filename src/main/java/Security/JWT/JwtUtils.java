@@ -54,6 +54,7 @@ public class JwtUtils implements JwtTokenInterface{
 			
 			claims.put(SecurityConfiguration.VersionClaimName, String.valueOf(user.getVersion()));
 			token=this.generateToken(user.getUserId(), user.isUserActive(), claims,validUntil,deviceID);
+			
 		}
 		
 		TokenDTO tok=new TokenDTO();

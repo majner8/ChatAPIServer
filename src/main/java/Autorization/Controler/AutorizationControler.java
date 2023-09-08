@@ -68,11 +68,12 @@ public class AutorizationControler {
 		
 		try {
 			this.UserService.saveAndFlush(newEntity);
-			
+
 			UserPasswordEntity autUser=new UserPasswordEntity();
 			autUser.setUserId(newEntity.getUserId());
 			autUser.setPassword(this.BCryptEncoder.encode(value.getPassword()));
 			this.UserPasswordDatabaseService.save(autUser);
+
 		} catch(DataIntegrityViolationException ee) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
@@ -83,6 +84,7 @@ public class AutorizationControler {
 		return ResponseEntity.ok(this.tokenGenerator.generateToken(newEntity,value.getDeviceID()));
 		
 	}
+	@Transactional
 	@PostMapping(PathConfig.loginPath)
 	public ResponseEntity<TokenDTO>login(@RequestBody @Valid AutorizationRequestDTO value
 			,HttpServletRequest request){
@@ -124,6 +126,11 @@ public class AutorizationControler {
 			throw new UserWasNotFindException(userDetails.getUserId());
 		});
 		
+		for(int i=0;i<10;i++) {
+			System.out.println(user.isUserActive());
+			System.out.println(user.getUserId());
+
+		}
 		user.setSerName(value.getSerName());
 		user.setLastName(value.getLastName());
 		user.setBirthDay(value.getBirthDay());
@@ -132,7 +139,7 @@ public class AutorizationControler {
 		
 		
 		try {
-			this.UserService.saveAndFlush(user);
+			this.UserService.save(user);
 		}
 		catch(OptimisticLockException e) {
 			//registration has been finish from other device

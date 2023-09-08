@@ -2,6 +2,7 @@ package Autorization.Controler;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -28,7 +29,7 @@ public class RegistrationLoggingAspect {
 		    + "|| execution(* Autorization.Controler.AutorizationControler.login(..)) && args(value, value1)",
 		    returning = "response")
 
-    public void afterRegistration(JoinPoint joinPoint, AutorizationRequestDTO value,HttpServletRequest value1, ResponseEntity<TokenDTO> response) {
+    public void AutorizationMonitoringAttemp(JoinPoint joinPoint, AutorizationRequestDTO value,HttpServletRequest value1, ResponseEntity<TokenDTO> response) {
     	SecurityMonitoring set=new SecurityMonitoring();
     	set.setAttempSucesful((response.getStatusCode()==HttpStatus.OK?true:false));
     	set.setCountryPreflix(value.getCountryPreflix());
