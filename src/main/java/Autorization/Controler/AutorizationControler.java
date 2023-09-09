@@ -3,10 +3,13 @@ package Autorization.Controler;
 
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;
+import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,7 +26,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import Autorization.DTO.AutorizationRequestDTO;
 import Autorization.DTO.TokenDTO;
-import Autorization.Service.AutorizationRepositoryInterface;
+import Autorization.Entity.DeviceUserEntity;
+import Autorization.Entity.DeviceUserEntity.CompositePrimaryKey;
+import Autorization.Repository.AutorizationRepositoryInterface;
 import Config.PathConfig;
 import Security.CustomUserDetails;
 import Security.CustomUserDetails.AutorizationCustomUserDetails;
@@ -47,8 +52,8 @@ public class AutorizationControler {
 	private UserRepositoryInterface UserService;
 	@Autowired
 	private AutorizationRepositoryInterface UserPasswordDatabaseService;
-	
-	
+	@PersistenceContext
+	private EntityManager entityManager;
 	
 	/**Metod proces Registration task
 	 * @return generated token if attemp will be sucesfull, token */
@@ -73,7 +78,7 @@ public class AutorizationControler {
 			autUser.setUserId(newEntity.getUserId());
 			autUser.setPassword(this.BCryptEncoder.encode(value.getPassword()));
 			this.UserPasswordDatabaseService.save(autUser);
-
+			
 		} catch(DataIntegrityViolationException ee) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
@@ -148,8 +153,22 @@ public class AutorizationControler {
 		return ResponseEntity.ok(this.tokenGenerator.generateToken(user.getUserId(),userDetails.getDeviceId()));
 	}
 	
-	
-	
+
+	/**Metod save/assign actual activity of deviceUser
+	 */
+	private void SaveUserDevice(@NotNull String InetAdress,@NotNull String deviceID,int userID,boolean isDeviceNew) {
+		
+		CompositePrimaryKey prim=new CompositePrimaryKey();
+		prim.setUserId(userID);
+		prim.setDeviceId(deviceID);
+		if(isDeviceNew) {
+			// try save new device, throw duplicate primary key exception
+			DeviceUserEntity device=new DeviceUserEntity();
+			device.set
+		}
+		else {}
+		
+	}
 	private static final class UserWasNotFindException extends RuntimeException{
 		private UserWasNotFindException(int userId) {
 			super(String.format("user %d was not find, even if it has done autorization before",userId ));

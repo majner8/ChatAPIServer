@@ -1,4 +1,4 @@
-package User.Entity;
+package Autorization.Entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -9,27 +9,34 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
 @Entity(name="deviceuser")
-public class UserDevicesEntity {
+public class DeviceUserEntity {
 
+	public DeviceUserEntity() {
+		
+	}
 
+	public DeviceUserEntity(CompositePrimaryKey primaryKey) {
+		this.primaryKey=primaryKey;
+	}
 	@Column(name="validtokenuuid")
 	private String validTokenId;
-	@Column(name="ipadress")
-	private String iptAdres;
+	
+	@Column(name="lastActivity")
+	private Timestamp lastActivity;
+	
+	@Column(name="is_user_current_active")
+	private boolean isUserCurrentActive;
+	@EmbeddedId
+	private CompositePrimaryKey primaryKey;
+	
+	
 	public String getValidTokenId() {
 		return validTokenId;
 	}
 
+	
 	public void setValidTokenId(String validTokenId) {
 		this.validTokenId = validTokenId;
-	}
-
-	public String getIptAdres() {
-		return iptAdres;
-	}
-
-	public void setIptAdres(String iptAdres) {
-		this.iptAdres = iptAdres;
 	}
 
 	public Timestamp getLastActivity() {
@@ -48,24 +55,32 @@ public class UserDevicesEntity {
 		this.primaryKey = primaryKey;
 	}
 
-	@Column(name="lastActivity")
-	private Timestamp lastActivity;
-	@EmbeddedId
-	private CompositePrimaryKey primaryKey;
 	
+	
+	public boolean isUserCurrentActive() {
+		return isUserCurrentActive;
+	}
+
+
+	public void setUserCurrentActive(boolean isUserCurrentActive) {
+		this.isUserCurrentActive = isUserCurrentActive;
+	}
+
+
+
 	@Embeddable
 	public static class CompositePrimaryKey implements Serializable {
 		@Column(name="deviceuuid")
-		private int deviceId;
+		private String deviceId;
 		
 		@Column(name="userUUID")
 		private int userId;
 
-		public int getDeviceId() {
+		public String getDeviceId() {
 			return deviceId;
 		}
 
-		public void setDeviceId(int deviceId) {
+		public void setDeviceId(String deviceId) {
 			this.deviceId = deviceId;
 		}
 

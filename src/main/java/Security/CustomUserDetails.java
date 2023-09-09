@@ -1,20 +1,10 @@
 package Security;
 
 import java.util.Collection;
-import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.auth0.jwt.interfaces.Claim;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import Security.JWT.JwtUtils;
-import User.Entity.UserDevicesEntity;
-import User.Entity.UserEntity;
 
 public class CustomUserDetails implements UserDetails{
 

@@ -25,6 +25,16 @@ public class AutorizationRequestDTO {
 	@NotEmpty
 	@NotNull
 	private String deviceID;
+	@NotNull
+	private Boolean isDeviceNew;
+	
+	
+	public Boolean getIsDeviceNew() {
+		return isDeviceNew;
+	}
+	public void setIsDeviceNew(Boolean isDeviceNew) {
+		this.isDeviceNew = isDeviceNew;
+	}
 	public String getEmail() {
 		return email;
 	}
