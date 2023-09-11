@@ -11,6 +11,7 @@ public class CustomUserDetails implements UserDetails{
 	
 	private Collection<? extends GrantedAuthority> autority;
 	private int userId;
+	private String StringUserID;
 	private String deviceId;
 	
 	
@@ -40,6 +41,7 @@ public class CustomUserDetails implements UserDetails{
 		this.autority = autority;
 		this.userId = userId;
 		this.deviceId=deviceId;
+		this.StringUserID=String.valueOf(this.userId);
 	}
 
 	@Override
@@ -57,7 +59,7 @@ public class CustomUserDetails implements UserDetails{
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return String.valueOf(this.userId);
+		return this.StringUserID;
 	}
 
 	@Override
@@ -88,10 +90,14 @@ public class CustomUserDetails implements UserDetails{
 		return autority;
 	}
 
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
+	public String getStringUserId() {
+		return this.StringUserID;
+	}
+	
 
 	public static class AutorizationCustomUserDetails extends CustomUserDetails {
 
