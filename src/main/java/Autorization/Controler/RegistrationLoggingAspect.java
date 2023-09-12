@@ -12,8 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import Autorization.DTO.AutorizationRequestDTO;
-import Autorization.DTO.TokenDTO;
+import DTO.Autorization.AutorizationRequestDTO;
+import DTO.Autorization.TokenDTO;
 import Entity.AutorizationEntity.SecurityMonitoring;
 
 @Component

@@ -8,47 +8,57 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
 
+import DTO.MessageDTO.MessageDTO;
+import DTO.MessageDTO.MessageViewNotificationDTO;
 import Main.BeanSetting.ActiveChatHashMap;
-import Message.MessageDTO;
-import Message.MessageViewNotificationDTO;
+import Repository.ChatRepository.ChatRepository;
 import Security.CustomUserDetails.AutorizationCustomUserDetails;
 
 @Component
 
 public class ChatService implements MessageManagement {
 
+	
 	@Value("${Chat.activeTimeout}")
 	private static long activeTimeout;
 	@Autowired
 	private SimpMessagingTemplate messagingTemplate;
 	@Autowired
 	private ActiveChatHashMap activeChat;
-
+	@Autowired
+	private ChatRepository chatRepo;
 
 	@Async
 	@Override
-	public void SendMessage(MessageDTO message, String chatUUID) {
+	public void SendMessage(MessageDTO message, int chatUUID) {
 		// TODO Auto-generated method stub
 		//send message to all user
 		this.getChat(chatUUID).SendMessage(message);
 	}
 	@Async
 	@Override
-	public void SawMessage(String chatUUID, MessageViewNotificationDTO message) {
+	public void SawMessage(int chatUUID, MessageViewNotificationDTO message) {
 		// TODO Auto-generated method stub
 		//Send notification to all user
 		this.getChat(chatUUID).SendMessage(message);
 	}
 
 
-	public boolean doesUserHavePermision(String userId,String chaId) {
-		return this.getChat(chaId).doesUserHavePermision(userId);
+	public boolean doesUserHavePermision(String userId,int chaId) {
+		Chat chat=this.getChat(chaId);
+		if(chat==null) {
+			//invalid chat, id was not recognize
+			throw new ChatException("chatId was not recognize");
+		}
+		
+		return chat.doesUserHavePermision(userId);
 	}
 	
 	@Scheduled(fixedRate = 180000 )  
@@ -67,9 +77,18 @@ public class ChatService implements MessageManagement {
 	}
 	
 	/**
-	 * @return active Chat from connection or create new one */
-	private Chat getChat(String chatiD) {
-		
+	 * @return active Chat from connection or create new one 
+	 * @return null if chat with appropriate Id does not exist*/
+	private Chat getChat(int chatID) {
+		Chat chat=this.activeChat.get(activeChat);
+		if(chat!=null) {
+			return chat;
+		}
+		Entity.ChatEntity.Chat chatEn=this.chatRepo.getById(chatID);
+		if(chatEn==null) {
+			return null;
+		}
+		return new Chat(chatEn);
 	}
 	public  class Chat{
 		
@@ -77,7 +96,7 @@ public class ChatService implements MessageManagement {
 		private Set<String> UserChatIDMember=Collections.synchronizedSet(new HashSet<String>());
 		private volatile long lastTimeOfUsed=System.currentTimeMillis();
 		
-		public Chat() {
+		public Chat(Entity.ChatEntity.Chat entityChat) {
 			
 		}
 	
@@ -112,5 +131,10 @@ public class ChatService implements MessageManagement {
 	}
 	
 	
+	public static class ChatException extends RuntimeException{
+		public ChatException(String message) {
+			super(message);
+		}
+	}
 
 }

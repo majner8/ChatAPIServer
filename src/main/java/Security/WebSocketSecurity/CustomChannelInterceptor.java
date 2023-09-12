@@ -43,10 +43,11 @@ public class CustomChannelInterceptor implements ChannelInterceptor {
             String[] destinationID=accessor.getDestination().split("/");
             //chat request, first variable ID have to be chatID	
             if(destinationID[1].equals(PathConfig.ChatPreflix)) {
-            	if(!this.Chatservice.doesUserHavePermision(user.getUsername(), null)) {}
+            	if(!this.Chatservice.doesUserHavePermision(user.getUsername(), Integer.parseInt(destinationID[0]))) {
             		//user cannot send message to chat where he is not member
-            	this.messagingTemplate.convertAndSendToUser(user.getUsername(), "chat/AccesDenied/"+destinationID[0], null);
-            	return null;
+                	this.messagingTemplate.convertAndSendToUser(user.getUsername(), "chat/AccesDenied/"+destinationID[0], null);
+                	return null;
+            	}
             }    
         }
         

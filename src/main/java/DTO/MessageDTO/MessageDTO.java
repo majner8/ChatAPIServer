@@ -1,4 +1,4 @@
-package Message;
+package DTO.MessageDTO;
 
 public class MessageDTO {
 

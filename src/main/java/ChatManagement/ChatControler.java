@@ -6,7 +6,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.annotation.SendToUser;
 
 import Config.PathConfig;
-import Message.MessageDTO;
+import DTO.MessageDTO.MessageDTO;
 
 public class ChatControler {
 
@@ -22,7 +22,7 @@ public class ChatControler {
 
 		
 		
-		this.chatService.SendMessage(message, chatUUID);
+		this.chatService.SendMessage(message, Integer.parseInt(chatUUID));
 		
 		return null;
 	}

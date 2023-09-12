@@ -3,7 +3,7 @@ package Autorization.Validator;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import Autorization.DTO.AutorizationRequestDTO;
+import DTO.Autorization.AutorizationRequestDTO;
 
 public class AutorizationDTOValidator implements ConstraintValidator<AutorizationSurNameValidator, AutorizationRequestDTO> {
 

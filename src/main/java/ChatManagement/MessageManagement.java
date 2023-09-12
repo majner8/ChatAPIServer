@@ -1,16 +1,16 @@
 package ChatManagement;
 
-import Message.MessageDTO;
-import Message.MessageViewNotificationDTO;
+import DTO.MessageDTO.MessageDTO;
+import DTO.MessageDTO.MessageViewNotificationDTO;
 
 public interface MessageManagement {
 
 	/**Metod Resend Message to appropriate chat
 	*/
-	public void SendMessage(MessageDTO message,String chatUUID);
+	public void SendMessage(MessageDTO message,int chatUUID);
 	
 	/**Metod Resend notifiction to all user in chat*/
-	public void SawMessage(String chatUUID,MessageViewNotificationDTO message);
+	public void SawMessage(int chatUUID,MessageViewNotificationDTO message);
 
 
 }

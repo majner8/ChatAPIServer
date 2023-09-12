@@ -24,20 +24,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import Autorization.DTO.AutorizationRequestDTO;
-import Autorization.DTO.TokenDTO;
-import Autorization.Repository.AutorizationRepositoryInterface;
 import Config.PathConfig;
+import DTO.Autorization.AutorizationRequestDTO;
+import DTO.Autorization.TokenDTO;
 import Entity.AutorizationEntity.DeviceUserEntity;
 import Entity.AutorizationEntity.DeviceUserEntity.CompositePrimaryKey;
 import Entity.UserEntity.UserDataSettingDTO;
 import Entity.UserEntity.UserEntity;
 import Entity.UserEntity.UserPasswordEntity;
+import Repository.AutorizationRepository.AutorizationRepositoryInterface;
+import Repository.User.UserRepositoryInterface;
 import Security.CustomUserDetails;
 import Security.CustomUserDetails.AutorizationCustomUserDetails;
 import Security.SecurityConfiguration;
 import Security.JWT.JwtTokenInterface;
-import User.Interface.UserRepositoryInterface;
 
 @RequestMapping(PathConfig.autorizationPathPreflix)
 @Component

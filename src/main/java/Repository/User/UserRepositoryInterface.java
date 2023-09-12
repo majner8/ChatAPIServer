@@ -1,4 +1,4 @@
-package User.Interface;
+package Repository.User;
 
 import java.util.List;
 import java.util.Optional;

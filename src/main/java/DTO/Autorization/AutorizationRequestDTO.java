@@ -1,4 +1,4 @@
-package Autorization.DTO;
+package DTO.Autorization;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;

@@ -1,4 +1,4 @@
-package Autorization.Repository;
+package Repository.AutorizationRepository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

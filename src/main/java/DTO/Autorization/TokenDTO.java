@@ -1,4 +1,4 @@
-package Autorization.DTO;
+package DTO.Autorization;
 
 import java.util.Date;
 

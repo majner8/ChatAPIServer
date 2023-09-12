@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-import Autorization.DTO.TokenDTO;
+import DTO.Autorization.TokenDTO;
 import Entity.UserEntity.UserEntity;
 
 public interface JwtTokenInterface {

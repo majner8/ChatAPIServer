@@ -24,7 +24,7 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import Autorization.DTO.TokenDTO;
+import DTO.Autorization.TokenDTO;
 import Entity.UserEntity.UserEntity;
 import Security.SecurityConfiguration;
 import io.jsonwebtoken.UnsupportedJwtException;
