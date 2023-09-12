@@ -19,6 +19,7 @@ import Message.MessageViewNotificationDTO;
 import Security.CustomUserDetails.AutorizationCustomUserDetails;
 
 @Component
+
 public class ChatService implements MessageManagement {
 
 	@Value("${Chat.activeTimeout}")
@@ -28,14 +29,14 @@ public class ChatService implements MessageManagement {
 	private ActiveChatHashMap activeChat;
 
 
-
+	@Async
 	@Override
 	public void SendMessage(MessageDTO message, String chatUUID) {
 		// TODO Auto-generated method stub
 		//send message to all user
 		this.activeChat.get(chatUUID).SendMessage(message);
 	}
-
+	@Async
 	@Override
 	public void SawMessage(String chatUUID, MessageViewNotificationDTO message) {
 		// TODO Auto-generated method stub

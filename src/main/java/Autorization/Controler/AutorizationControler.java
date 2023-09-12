@@ -131,11 +131,7 @@ public class AutorizationControler {
 			throw new UserWasNotFindException(userDetails.getUserId());
 		});
 		
-		for(int i=0;i<10;i++) {
-			System.out.println(user.isUserActive());
-			System.out.println(user.getUserId());
 
-		}
 		user.setSerName(value.getSerName());
 		user.setLastName(value.getLastName());
 		user.setBirthDay(value.getBirthDay());

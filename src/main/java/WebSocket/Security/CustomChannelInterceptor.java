@@ -22,6 +22,8 @@ public class CustomChannelInterceptor implements ChannelInterceptor {
 	@Autowired
 	private ChatService Chatservice;
 	
+	/**
+	 *Metod send response chat/AccesDenied/chatID if user do not have enought permision(is not part of chat)   */
 	@Override
 	public Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
@@ -42,7 +44,8 @@ public class CustomChannelInterceptor implements ChannelInterceptor {
             //chat request, first variable ID have to be chatID	
             if(destinationID[1].equals(PathConfig.ChatPreflix)) {
             	if(this.Chatservice.doesUserHavePermision(user.getUserId(), null))
-            	this.messagingTemplate.convertAndSendToUser(user.getUsername(), "chat/AccesDenied", null);
+            		//user cannot send message to chat where he is not member
+            	this.messagingTemplate.convertAndSendToUser(user.getUsername(), "chat/AccesDenied/"+destinationID[0], null);
             	return null;
             }    
         }
