@@ -1,4 +1,4 @@
-package Autorization.Entity;
+package Entity.AutorizationEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

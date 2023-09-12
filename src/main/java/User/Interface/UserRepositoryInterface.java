@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import User.Entity.UserEntity;
+import Entity.UserEntity.UserEntity;
 
 
 

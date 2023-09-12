@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import Autorization.DTO.AutorizationRequestDTO;
 import Autorization.DTO.TokenDTO;
-import Autorization.Entity.SecurityMonitoring;
+import Entity.AutorizationEntity.SecurityMonitoring;
 
 @Component
 @Aspect

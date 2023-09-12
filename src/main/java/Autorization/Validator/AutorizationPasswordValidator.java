@@ -1,4 +1,4 @@
-package Autorization.DTO.Validator;
+package Autorization.Validator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

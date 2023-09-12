@@ -1,4 +1,4 @@
-package Autorization.Entity;
+package Entity.AutorizationEntity;
 
 import java.sql.Timestamp;
 
@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
-import Autorization.Entity.DeviceUserEntity.CompositePrimaryKey;
+import Entity.AutorizationEntity.DeviceUserEntity.CompositePrimaryKey;
 
 @Entity(name="device_ip_adress")
 public class DeviceIpAdressEntity {

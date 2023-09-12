@@ -1,4 +1,4 @@
-package Autorization.Entity;
+package Entity.AutorizationEntity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;

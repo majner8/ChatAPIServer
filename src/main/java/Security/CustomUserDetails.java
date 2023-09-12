@@ -90,13 +90,11 @@ public class CustomUserDetails implements UserDetails{
 		return autority;
 	}
 
-	public String getUserId() {
+	public int getUserId() {
 		return userId;
 	}
 
-	public String getStringUserId() {
-		return this.StringUserID;
-	}
+	
 	
 
 	public static class AutorizationCustomUserDetails extends CustomUserDetails {

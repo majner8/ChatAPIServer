@@ -1,4 +1,4 @@
-package WebSocket.Security;
+package Security.WebSocketSecurity;
 
 import java.nio.file.AccessDeniedException;
 
@@ -32,7 +32,7 @@ public class CustomChannelInterceptor implements ChannelInterceptor {
         if(SimpMessageType.SUBSCRIBE==accessor.getMessageType()) {
         	//message is subs attemp, verify if user have enought permision
         	//client can start sub only itself
-        	if(!accessor.getDestination().equals(user.getStringUserId())) {
+        	if(!accessor.getDestination().equals(user.getUsername())) {
         		//user do not have permision to sub path
                 throw new SecurityException("Access Denied, user do not have permision to sub path"+accessor.getDestination());
         	}
@@ -43,7 +43,7 @@ public class CustomChannelInterceptor implements ChannelInterceptor {
             String[] destinationID=accessor.getDestination().split("/");
             //chat request, first variable ID have to be chatID	
             if(destinationID[1].equals(PathConfig.ChatPreflix)) {
-            	if(this.Chatservice.doesUserHavePermision(user.getUserId(), null))
+            	if(!this.Chatservice.doesUserHavePermision(user.getUsername(), null)) {}
             		//user cannot send message to chat where he is not member
             	this.messagingTemplate.convertAndSendToUser(user.getUsername(), "chat/AccesDenied/"+destinationID[0], null);
             	return null;
