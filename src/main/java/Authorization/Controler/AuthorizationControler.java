@@ -1,4 +1,4 @@
-package Autorization.Controler;
+package Authorization.Controler;
 
 
 import java.util.Optional;

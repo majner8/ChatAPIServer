@@ -5,7 +5,7 @@ import Entity.MessageEntity.MessageEntity;
 public class MessageDTO {
 
 	
-	private int SenderIdů
+	//private int SenderIdů
 	
 	// boolean sucesfull send unSucesfull
 

@@ -1,4 +1,4 @@
-package Autorization.Validator;
+package Authorization.Validator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

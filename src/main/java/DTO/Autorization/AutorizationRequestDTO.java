@@ -6,8 +6,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import Autorization.Validator.AutorizationPasswordInterface;
-import Autorization.Validator.AutorizationSurNameValidator;
+import Authorization.Validator.AutorizationPasswordInterface;
+import Authorization.Validator.AutorizationSurNameValidator;
+
 
 
 @AutorizationSurNameValidator

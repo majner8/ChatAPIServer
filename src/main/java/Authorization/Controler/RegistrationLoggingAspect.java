@@ -1,4 +1,4 @@
-package Autorization.Controler;
+package Authorization.Controler;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;

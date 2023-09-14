@@ -1,4 +1,4 @@
-package Autorization.Validator;
+package Authorization.Validator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

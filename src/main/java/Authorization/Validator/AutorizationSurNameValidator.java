@@ -1,4 +1,4 @@
-package Autorization.Validator;
+package Authorization.Validator;
 
 import java.lang.annotation.*;
 import javax.validation.Constraint;
