@@ -41,7 +41,7 @@ import Security.JWT.JwtTokenInterface;
 
 @RequestMapping(PathConfig.autorizationPathPreflix)
 @Component
-public class AutorizationControler {
+public class AuthorizationControler {
 
 	@Autowired
 	private BCryptPasswordEncoder BCryptEncoder;
@@ -150,21 +150,7 @@ public class AutorizationControler {
 	}
 	
 
-	/**Metod save/assign actual activity of deviceUser
-	 */
-	private void SaveUserDevice(@NotNull String InetAdress,@NotNull String deviceID,int userID,boolean isDeviceNew) {
-		
-		CompositePrimaryKey prim=new CompositePrimaryKey();
-		prim.setUserId(userID);
-		prim.setDeviceId(deviceID);
-		if(isDeviceNew) {
-			// try save new device, throw duplicate primary key exception
-			DeviceUserEntity device=new DeviceUserEntity();
-			device.set
-		}
-		else {}
-		
-	}
+	
 	private static final class UserWasNotFindException extends RuntimeException{
 		private UserWasNotFindException(int userId) {
 			super(String.format("user %d was not find, even if it has done autorization before",userId ));
